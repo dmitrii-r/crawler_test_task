@@ -1,9 +1,11 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from lexicon.lexicon_ru import LEXICON_RU
 
-button_upload: KeyboardButton = KeyboardButton(text=LEXICON_RU['upload'])
-main_keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(
-    keyboard=[[button_upload]],
-    resize_keyboard=True
+button_upload: InlineKeyboardButton = InlineKeyboardButton(
+    text=LEXICON_RU['upload'],
+    callback_data='upload_file',
+)
+main_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
+    inline_keyboard=[[button_upload]],
 )

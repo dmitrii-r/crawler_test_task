@@ -3,7 +3,7 @@ import sqlite3
 import pandas as pd
 from aiogram import Router, F
 from aiogram.filters import CommandStart
-from aiogram.types import File, Message
+from aiogram.types import File, Message, CallbackQuery
 
 from keyboards.keyboards import main_keyboard
 from lexicon.lexicon_ru import LEXICON_RU
@@ -27,6 +27,21 @@ async def process_start_command(message: Message) -> None:
     user_name: str = message.from_user.first_name
     start_text: str = LEXICON_RU['/start_prefix'] + user_name + LEXICON_RU['/start_postfix']
     await message.answer(text=start_text, reply_markup=main_keyboard)
+
+
+@router.callback_query(F.data == 'upload_file')
+async def upload_file(callback_query: CallbackQuery) -> None:
+    """
+    Обработчик нажатия на инлайн кнопку с callback_data == 'upload_file'.
+
+    :param callback_query: Обьект callback_query
+    :type callback_query: types.CallbackQuery
+
+    :return: None
+    :rtype: None
+    """
+    await callback_query.bot.send_message(callback_query.from_user.id, LEXICON_RU['upload_message'])
+    await callback_query.answer()
 
 
 @router.message(F.document)
