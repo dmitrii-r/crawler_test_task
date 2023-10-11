@@ -1,11 +1,13 @@
 import pandas as pd
 import requests
 from lxml import html
+from numpy import average
 
 
 def parse_prices(df: pd.DataFrame) -> pd.DataFrame:
     """
     Парсинг цен на основе данных из DataFrame.
+    Расчет средней цены.
 
     :param df: DataFrame с данными о продуктах, включая название, URL и путь к цене.
     :type df: pd.DataFrame
@@ -13,7 +15,7 @@ def parse_prices(df: pd.DataFrame) -> pd.DataFrame:
     :return: Новый DataFrame с добавленными ценами.
     :rtype: pd.DataFrame
     """
-    parsed_data: dict[str, list] = {'title': [], 'url': [], 'xpath': [], 'price': []}
+    parsed_data: dict[str, list] = {'title': [], 'url': [], 'xpath': [], 'price': [], 'avg_price': 0}
 
     for index, row in df.iterrows():
         url: str = row['url']
@@ -35,5 +37,6 @@ def parse_prices(df: pd.DataFrame) -> pd.DataFrame:
         parsed_data['xpath'].append(xpath)
         parsed_data['price'].append(price)
 
+    parsed_data['avg_price'] = average(parsed_data['price'])
     parsed_df = pd.DataFrame(parsed_data)
     return parsed_df

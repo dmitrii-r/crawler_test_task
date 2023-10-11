@@ -4,5 +4,5 @@ LEXICON_RU: dict[str, str] = {
     'upload': 'загрузить файл',
     'upload_message': 'Прикрепи файл Excel и нажми на кнопку отправить, чтобы загрузить файл.',
     'answer_parsed_data': 'Содержимое файла:\n',
-    'answer_average_prices': 'Средние цены по каждому сайту:\n',
+    'answer_avg_price': 'Средняя цена по загруженным сайтам:\n',
 }

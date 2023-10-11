@@ -62,10 +62,24 @@ async def handle_file(message: Message) -> None:
         f.write(file.read())
 
     df: pd.DataFrame = pd.read_excel('data.xlsx')
-    parsed_df: pd.DataFrame = parse_prices(df)
-
-    await message.reply(LEXICON_RU['answer_parsed_data'] + parsed_df.to_string())
 
     con = sqlite3.connect('db.sqlite3')
-    parsed_df.to_sql('zuzublik_data', con, index=False, if_exists='append')
+    df.to_sql('zuzublik_data', con, index=False, if_exists='append')
     con.close()
+
+    parsed_df: pd.DataFrame = parse_prices(df)
+
+    columns_to_display = ['title', 'url', 'price']
+
+    await message.reply(LEXICON_RU['answer_parsed_data'] + parsed_df.to_string(
+        header=False,
+        index=False,
+        columns=columns_to_display,
+        max_colwidth=40
+    ))
+
+    await message.reply(LEXICON_RU['answer_avg_price'] + parsed_df['avg_price'].to_string(
+        header=False,
+        index=False,
+        max_rows=1,
+    ))
