@@ -1,6 +1,6 @@
 # crawler_test_task
 
-Стек: Python3, aiogram, pandas, sqlite3
+Стек: Python3, aiogram, pandas, sqlite3, docker, docker-compose
 
 ## Описание бота
 Представьте, что у вас есть система без интерфейса пользователя, например crawler (сборщик
