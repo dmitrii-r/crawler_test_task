@@ -1,4 +1,5 @@
 import sqlite3
+from sqlite3 import Connection
 
 import pandas as pd
 from aiogram import Router, F
@@ -63,13 +64,13 @@ async def handle_file(message: Message) -> None:
 
     df: pd.DataFrame = pd.read_excel('data.xlsx')
 
-    con = sqlite3.connect('db.sqlite3')
+    con: Connection = sqlite3.connect('db.sqlite3')
     df.to_sql('zuzublik_data', con, index=False, if_exists='append')
     con.close()
 
     parsed_df: pd.DataFrame = parse_prices(df)
 
-    columns_to_display = ['title', 'url', 'price']
+    columns_to_display: list[str] = ['title', 'url', 'price']
 
     await message.reply(LEXICON_RU['answer_parsed_data'] + parsed_df.to_string(
         header=False,
