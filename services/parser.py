@@ -24,7 +24,7 @@ def parse_prices(df: pd.DataFrame) -> pd.DataFrame:
 
         price_elements = tree.xpath(xpath)
         if price_elements:
-            raw_price: str = ' '.join(element.text_content() for element in price_elements)
+            raw_price: str = ' '.join(element.text_content() for element in price_elements).replace(',', '.')
             cleaned_price: str = ''.join(c if c.isdigit() or c == '.' else '' for c in raw_price)
             price: float | None = float(cleaned_price) if cleaned_price else None
         else:
